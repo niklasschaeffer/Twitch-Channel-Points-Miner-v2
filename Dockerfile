@@ -1,4 +1,4 @@
-FROM python:3.14-bookworm
+FROM python:3.10-bookworm
 
 ARG BUILDX_QEMU_ENV
 
