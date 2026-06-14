@@ -1,24 +1,20 @@
-# Twitch Channel Points Miner (Armi1014 Fork)
+# Twitch Channel Points Miner (niklasschaeffer Fork)
 
-A **reliability-first fork** of `Twitch-Channel-Points-Miner-v2`.
+A **fork** of [Armi1014/Twitch-Channel-Points-Miner-v2](https://github.com/Armi1014/Twitch-Channel-Points-Miner-v2) with an added `!lurk` chat feature.
 
 Built for people who want:
 - **better watch streak reliability**
 - **cleaner favorite / priority behavior**
 - **faster startup in real use**
 - **less transient Twitch/API/network log noise**
-
-If upstream mostly works for you but occasionally behaves weirdly, this fork is meant to be the **more practical, more stable version**.
-It also aims to be the **faster fork in day-to-day use**, especially during startup and early channel refreshes.
+- **automatic `!lurk` message when joining a streamer's chat on first online connection**
 
 > Not affiliated with Twitch. Use at your own risk.
 
 ## Quick Start
 
-If you are coming from upstream, one of the first things you should notice is that this fork is tuned to spend less time stuck in slow startup behavior before it becomes usable.
-
 ```sh
-git clone https://github.com/Armi1014/Twitch-Channel-Points-Miner-v2
+git clone https://github.com/niklasschaeffer/Twitch-Channel-Points-Miner-v2
 cd Twitch-Channel-Points-Miner-v2
 cp example.py run.py
 uv sync
@@ -99,14 +95,41 @@ See [example.py](example.py) for a basic Discord webhook configuration example.
 
 ## Docs
 
-* [Latest Releases](https://github.com/Armi1014/Twitch-Channel-Points-Miner-v2/releases)
+* [Latest Releases](https://github.com/niklasschaeffer/Twitch-Channel-Points-Miner-v2/releases)
+* [Docker Hub](https://hub.docker.com/r/niklasschaeffer/twitch-channel-points-miner-v2)
 * [Example Config](example.py)
 * [Fork Features](FORK_FEATURES.md)
 * [FAQ](FAQ.md)
 * [Contributing](CONTRIBUTING.md)
 
-## Disclaimer
+## `!lurk` Feature
 
-This project is not affiliated with Twitch.
+This fork can automatically send `!lurk` in a streamer's chat when the bot first joins after the streamer goes online.
 
-Use it at your own risk and make sure you understand the platform rules before using automation tools.
+### Enable per streamer
+
+```python
+Streamer(
+    "streamer_name",
+    settings=StreamerSettings(send_lurk=True),
+)
+```
+
+### Requirements
+
+* IRC chat must be enabled for that streamer (`chat` must not be `ChatPresence.NEVER`).
+* The message is sent only once per IRC session.
+
+## Docker
+
+A pre-built image is available on [Docker Hub](https://hub.docker.com/r/niklasschaeffer/twitch-channel-points-miner-v2):
+
+```sh
+docker pull niklasschaeffer/twitch-channel-points-miner-v2:latest
+```
+
+Build it yourself:
+
+```sh
+docker build -t niklasschaeffer/twitch-channel-points-miner-v2 .
+```
