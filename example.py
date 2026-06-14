@@ -70,6 +70,15 @@ STREAMERS = [
 #     "streak_streamer",
 #     settings=StreamerSettings(watch_streak=True),
 # )
+# Streamer(
+#     "streak_streamer",
+#     settings=StreamerSettings(watch_streak=True),
+# )
+#
+# Streamer(
+#     "lurk_streamer",
+#     settings=StreamerSettings(send_lurk=True),
+# )
 #
 # Streamer(
 #     "quiet_streamer",
@@ -78,7 +87,6 @@ STREAMERS = [
 #         claim_drops=False,
 #     ),
 # )
-#
 # Streamer(
 #     "high_cap_streamer",
 #     settings=StreamerSettings(

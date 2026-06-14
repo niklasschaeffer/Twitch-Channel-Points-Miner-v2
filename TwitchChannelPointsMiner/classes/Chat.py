@@ -23,17 +23,18 @@ class ChatPresence(Enum):
 
 
 class ClientIRC(SingleServerIRCBot):
-    def __init__(self, username, token, streamer):
+    def __init__(self, username, token, streamer, send_lurk=False):
         self.token = token
         self.streamer = streamer
         self.channel_name = self._get_channel_name(streamer)
         self.channel = "#" + self.channel_name
         self.__active = False
+        self.send_lurk = send_lurk
+        self._lurk_sent = False
 
         super(ClientIRC, self).__init__(
             [(IRC, IRC_PORT, f"oauth:{token}")], username, username
         )
-
     @staticmethod
     def _get_channel_name(streamer):
         if hasattr(streamer, "username"):
@@ -46,6 +47,9 @@ class ClientIRC(SingleServerIRCBot):
         except Exception:
             logger.debug("Failed to request Twitch IRC capabilities", exc_info=True)
         client.join(self.channel)
+        if self.send_lurk and not self._lurk_sent:
+            client.privmsg(self.channel, "!lurk")
+            self._lurk_sent = True
 
     @staticmethod
     def _tags_to_dict(tags):
@@ -260,18 +264,21 @@ class ThreadChat(Thread):
     def __deepcopy__(self, memo):
         return None
 
-    def __init__(self, username, token, streamer):
+    def __init__(self, username, token, streamer, send_lurk=False):
         super(ThreadChat, self).__init__()
 
         self.username = username
         self.token = token
         self.streamer = streamer
         self.channel = ClientIRC._get_channel_name(streamer)
+        self.send_lurk = send_lurk
 
         self.chat_irc = None
 
     def run(self):
-        self.chat_irc = ClientIRC(self.username, self.token, self.streamer)
+        self.chat_irc = ClientIRC(
+            self.username, self.token, self.streamer, send_lurk=self.send_lurk
+        )
         logger.info(
             f"Join IRC Chat: {self.channel}", extra={"emoji": ":speech_balloon:"}
         )

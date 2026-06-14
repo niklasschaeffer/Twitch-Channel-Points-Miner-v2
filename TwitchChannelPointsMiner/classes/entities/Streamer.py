@@ -51,8 +51,8 @@ class StreamerSettings(object):
         "playback_simulation",
         "bet",
         "chat",
+        "send_lurk",
     ]
-
     def __init__(
         self,
         make_predictions: bool = None,
@@ -66,6 +66,7 @@ class StreamerSettings(object):
         playback_simulation: PlaybackSimulationMode | str = None,
         bet: BetSettings = None,
         chat: ChatPresence = None,
+        send_lurk: bool = None,
     ):
         self.make_predictions = make_predictions
         self.follow_raid = follow_raid
@@ -82,6 +83,7 @@ class StreamerSettings(object):
         )
         self.bet = bet
         self.chat = chat
+        self.send_lurk = send_lurk
 
     def default(self):
         for name in [
@@ -104,9 +106,11 @@ class StreamerSettings(object):
             self.bet = BetSettings()
         if self.chat is None:
             self.chat = ChatPresence.ONLINE
+        if self.send_lurk is None:
+            self.send_lurk = False
 
     def __repr__(self):
-        return f"BetSettings(make_predictions={self.make_predictions}, follow_raid={self.follow_raid}, claim_drops={self.claim_drops}, claim_moments={self.claim_moments}, watch_streak={self.watch_streak}, favorite={self.favorite}, points_limit={self.points_limit}, community_goals={self.community_goals}, playback_simulation={self.playback_simulation}, bet={self.bet}, chat={self.chat})"
+        return f"BetSettings(make_predictions={self.make_predictions}, follow_raid={self.follow_raid}, claim_drops={self.claim_drops}, claim_moments={self.claim_moments}, watch_streak={self.watch_streak}, favorite={self.favorite}, points_limit={self.points_limit}, community_goals={self.community_goals}, playback_simulation={self.playback_simulation}, bet={self.bet}, chat={self.chat}, send_lurk={self.send_lurk})"
 
 
 class Streamer(object):
@@ -433,6 +437,7 @@ class Streamer(object):
                 self.irc_chat.username,
                 self.irc_chat.token,
                 self,
+                send_lurk=self.irc_chat.send_lurk,
             )
 
     def __join_chat(self):

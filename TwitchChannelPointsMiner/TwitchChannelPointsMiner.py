@@ -1157,6 +1157,7 @@ class TwitchChannelPointsMiner:
                         self.username,
                         self.twitch.twitch_login.get_auth_token(),
                         streamer,
+                        send_lurk=streamer.settings.send_lurk,
                     )
                 streamer.watch_streak_cache = self.watch_streak_cache
                 streamer.watch_streak_cache_path = self.watch_streak_cache_path
