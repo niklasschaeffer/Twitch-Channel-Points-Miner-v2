@@ -1,52 +1,80 @@
-// https://apexcharts.com/javascript-chart-demos/line-charts/zoomable-timeseries/
 var options = {
     series: [],
     chart: {
         type: 'area',
         stacked: false,
-        height: 490,
+        height: '100%',
         zoom: {
             type: 'x',
             enabled: true,
             autoScaleYaxis: true
         },
-        // background: '#2B2D3E',
-        foreColor: '#fff'
+        foreColor: '#efeff1',
+        fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+        toolbar: {
+            show: true,
+            tools: {
+                download: false,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true
+            }
+        }
+    },
+    theme: {
+        mode: 'dark'
     },
     dataLabels: {
         enabled: false
     },
     stroke: {
         curve: 'smooth',
+        width: 2
     },
     markers: {
         size: 0,
     },
     title: {
-        text: 'Channel points (dates are displayed in UTC)',
-        align: 'left'
+        text: 'Channel points (UTC)',
+        align: 'left',
+        style: {
+            fontSize: '16px',
+            fontWeight: 600,
+            color: '#efeff1'
+        }
     },
-    colors: ["#f9826c"],
+    colors: ["#a970ff"],
     fill: {
         type: 'gradient',
         gradient: {
             shadeIntensity: 1,
             inverseColors: false,
-            opacityFrom: 0.5,
-            opacityTo: 0,
+            opacityFrom: 0.45,
+            opacityTo: 0.05,
             stops: [0, 90, 100]
         },
     },
+    grid: {
+        borderColor: '#2c2c35',
+        strokeDashArray: 4
+    },
     yaxis: {
         title: {
-            text: 'Channel points'
+            text: 'Channel points',
+            style: { color: '#adadb8' }
         },
     },
     xaxis: {
         type: 'datetime',
         labels: {
-            datetimeUTC: false
-        }
+            datetimeUTC: false,
+            style: { colors: '#adadb8' }
+        },
+        axisBorder: { show: false },
+        axisTicks: { color: '#2c2c35' }
     },
     tooltip: {
         theme: 'dark',
@@ -75,7 +103,10 @@ var options = {
         }
     },
     noData: {
-        text: 'Loading...'
+        text: 'Loading...',
+        align: 'center',
+        verticalAlign: 'middle',
+        style: { color: '#adadb8' }
     }
 };
 
@@ -92,13 +123,8 @@ startDate.setDate(startDate.getDate() - daysAgo);
 var endDate = new Date();
 
 $(document).ready(function () {
-    // Variable to keep track of whether log checkbox is checked
     var isLogCheckboxChecked = $('#log').prop('checked');
-
-    // Variable to keep track of whether auto-update log is active
     var autoUpdateLog = true;
-
-    // Variable to keep track of the last received log index
     var lastReceivedLogIndex = 0;
 
     $('#auto-update-log').click(() => {
@@ -110,30 +136,19 @@ $(document).ready(function () {
         }
     });
 
-    // Function to get the full log content
     function getLog() {
         if (isLogCheckboxChecked) {
             $.get(`/log?lastIndex=${lastReceivedLogIndex}`, function (data) {
-                // Process and display the new log entries received
                 $("#log-content").append(data);
-                // Scroll to the bottom of the log content
                 $("#log-content").scrollTop($("#log-content")[0].scrollHeight);
-
-                // Update the last received log index
                 lastReceivedLogIndex += data.length;
-
-                if (autoUpdateLog) {
-                    // Call getLog() again after a certain interval (e.g., 1 second)
-                    setTimeout(getLog, 1000);
-                }
             });
         }
     }
 
-    // Retrieve the saved header visibility preference from localStorage
-    var headerVisibility = localStorage.getItem('headerVisibility');
+    setInterval(getLog, refresh);
 
-    // Set the initial header visibility based on the saved preference or default to 'visible'
+    var headerVisibility = localStorage.getItem('headerVisibility');
     if (headerVisibility === 'hidden') {
         $('#toggle-header').prop('checked', false);
         $('#header').hide();
@@ -142,15 +157,12 @@ $(document).ready(function () {
         $('#header').show();
     }
 
-    // Handle the toggle header change event
     $('#toggle-header').change(function () {
         if (this.checked) {
             $('#header').show();
-            // Save the header visibility preference as 'visible' in localStorage
             localStorage.setItem('headerVisibility', 'visible');
         } else {
             $('#header').hide();
-            // Save the header visibility preference as 'hidden' in localStorage
             localStorage.setItem('headerVisibility', 'hidden');
         }
     });
@@ -161,18 +173,15 @@ $(document).ready(function () {
     if (!localStorage.getItem("dark-mode")) localStorage.setItem("dark-mode", true);
     if (!localStorage.getItem("sort-by")) localStorage.setItem("sort-by", "Name ascending");
 
-    // Restore settings from localStorage on page load
     $('#annotations').prop("checked", localStorage.getItem("annotations") === "true");
     $('#dark-mode').prop("checked", localStorage.getItem("dark-mode") === "true");
 
-    // Handle the annotation toggle click event
     $('#annotations').click(() => {
         var isChecked = $('#annotations').prop("checked");
         localStorage.setItem("annotations", isChecked);
         updateAnnotations();
     });
 
-    // Handle the dark mode toggle click event
     $('#dark-mode').click(() => {
         var isChecked = $('#dark-mode').prop("checked");
         localStorage.setItem("dark-mode", isChecked);
@@ -192,18 +201,15 @@ $(document).ready(function () {
     updateAnnotations();
     toggleDarkMode();
 
-    // Retrieve log checkbox state from localStorage and update UI accordingly
     var logCheckboxState = localStorage.getItem('logCheckboxState');
     $('#log').prop('checked', logCheckboxState === 'true');
     if (logCheckboxState === 'true') {
         isLogCheckboxChecked = true;
         $('#auto-update-log').show();
         $('#log-box').show();
-        // Start continuously updating the log content
         getLog();
     }
 
-    // Handle the log checkbox change event
     $('#log').change(function () {
         isLogCheckboxChecked = $(this).prop('checked');
         localStorage.setItem('logCheckboxState', isLogCheckboxChecked);
@@ -216,8 +222,6 @@ $(document).ready(function () {
         } else {
             $('#log-box').hide();
             $('#auto-update-log').hide();
-            // Clear log content when checkbox is unchecked
-            // $("#log-content").text('');
         }
     });
 });
@@ -234,16 +238,19 @@ function formatDate(date) {
     return [year, month, day].join('-');
 }
 
+function formatPoints(value) {
+    if (value === undefined || value === null) return '';
+    return value.toLocaleString();
+}
+
 function changeStreamer(streamer, index) {
-    $("li").removeClass("is-active")
-    $("li").eq(index - 1).addClass('is-active');
+    $("#streamers-list .streamer-item").removeClass("is-active");
+    $(`#streamer-${CSS.escape(streamer)}`).addClass('is-active');
     currentStreamer = streamer;
 
-    // Update the chart title with the current streamer's name
-    options.title.text = `${streamer.replace(".json", "")}'s channel points (dates are displayed in UTC)`;
+    options.title.text = streamer.replace(".json", "") + "'s channel points (UTC)";
     chart.updateOptions(options);
 
-    // Save the selected streamer in localStorage
     localStorage.setItem("selectedStreamer", currentStreamer);
 
     getStreamerData(streamer);
@@ -264,7 +271,7 @@ function getStreamerData(streamer) {
             updateAnnotations();
             setTimeout(function () {
                 getStreamerData(streamer);
-            }, 300000); // 5 minutes
+            }, 300000);
         });
     }
 }
@@ -285,17 +292,13 @@ function getStreamers() {
         streamersList = response;
         sortStreamers();
 
-        // Restore the selected streamer from localStorage on page load
         var selectedStreamer = localStorage.getItem("selectedStreamer");
-
         if (selectedStreamer) {
             currentStreamer = selectedStreamer;
         } else {
-            // If no selected streamer is found, default to the first streamer in the list
             currentStreamer = streamersList.length > 0 ? streamersList[0].name : null;
         }
 
-        // Ensure the selected streamer is still active and scrolled into view
         renderStreamers();
     });
 }
@@ -304,19 +307,24 @@ function renderStreamers() {
     $("#streamers-list").empty();
     var promised = new Promise((resolve, reject) => {
         streamersList.forEach((streamer, index, array) => {
-            displayname = streamer.name.replace(".json", "");
-            if (sortField == 'points') displayname = "<font size='-2'>" + streamer['points'] + "</font>&nbsp;" + displayname;
-            else if (sortField == 'last_activity') displayname = "<font size='-2'>" + formatDate(streamer['last_activity']) + "</font>&nbsp;" + displayname;
+            var displayName = streamer.name.replace(".json", "");
+            var meta = '';
+            if (sortField == 'points') meta = `<span class="streamer-meta">${formatPoints(streamer['points'])}</span>`;
+            else if (sortField == 'last_activity') meta = `<span class="streamer-meta">${formatDate(streamer['last_activity'])}</span>`;
+
             var isActive = currentStreamer === streamer.name;
             if (!isActive && localStorage.getItem("selectedStreamer") === null && index === 0) {
                 isActive = true;
                 currentStreamer = streamer.name;
             }
             var activeClass = isActive ? 'is-active' : '';
-            var listItem = `<li id="streamer-${streamer.name}" class="${activeClass}"><a onClick="changeStreamer('${streamer.name}', ${index + 1}); return false;">${displayname}</a></li>`;
+            var safeName = streamer.name.replace(/'/g, "\\'");
+            var listItem = `<div id="streamer-${streamer.name}" class="streamer-item ${activeClass}" onClick="changeStreamer('${safeName}', ${index + 1}); return false;">
+                <span>${displayName}</span>
+                ${meta}
+            </div>`;
             $("#streamers-list").append(listItem);
             if (isActive) {
-                // Scroll the selected streamer into view
                 document.getElementById(`streamer-${streamer.name}`).scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
@@ -366,7 +374,6 @@ function clearAnnotations() {
     chart.clearAnnotations();
 }
 
-// Toggle
 $('#annotations').click(() => {
     updateAnnotations();
 });
@@ -378,7 +385,6 @@ $('.dropdown').click(() => {
     $('.dropdown').toggleClass('is-active');
 });
 
-// Input date
 $('#startDate').change(() => {
     startDate = new Date($('#startDate').val());
     getStreamerData(currentStreamer);

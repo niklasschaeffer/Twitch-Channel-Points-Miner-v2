@@ -1,39 +1,49 @@
-body, .dropdown *, .input {
-    background: #343E59;
-    color: #fff;
+:root {
+    --bg-body: #0e0e10;
+    --bg-surface: #18181b;
+    --bg-surface-hover: #1f1f23;
+    --bg-elevated: #26262c;
+    --border: #2c2c35;
+    --text-primary: #efeff1;
+    --text-secondary: #adadb8;
+    --accent: #a970ff;
 }
-a {
-    color: #fff;
+
+body {
+    background: var(--bg-body);
+    color: var(--text-primary);
 }
-a:hover {
-    color: #f9826c;
+
+.app-header,
+.toolbar,
+.streamer-sidebar,
+.card {
+    background: var(--bg-surface);
+    color: var(--text-primary);
 }
-.box {
-    background-color: #2B2D3E;
+
+#streamers-list .streamer-item.is-active {
+    color: var(--accent);
 }
-.tabs a {
-    border-bottom-color: #dbdbdb;
-    color: #fff;
-    border-bottom-style: none;
-}
-.tabs li.is-active a {
-    border-bottom-color: #f9826c;
-    color: #fff;
-    border-bottom-style: solid;
-}
-.tabs a:hover {
-    border-bottom-color: #dbdbdb;
-    color: #dbdbdb;
-    border-bottom-style: solid;
-}
-.tabs ul{
-    margin-bottom: 5px;
-    border-bottom-style: none;
-}
-.checkbox:hover{
-    color: #f9826c;
-}
+
 #log-content {
-    color: #fff;
-    background-color: #2B2D3E;
+    color: var(--text-primary);
+}
+
+.input {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+}
+
+.button {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+}
+
+.dropdown-content {
+    background: var(--bg-elevated);
+}
+
+.dropdown-item:hover {
+    color: var(--accent);
 }
