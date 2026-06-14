@@ -86,10 +86,12 @@ jobs:
             echo "<a href='$repo'><img alt='GitHub Clones' src='$shields$url&logo=github'></a>" >> CLONE.md
             echo '```' >> CLONE.md
 
-            git add CLONE.md
+            sed -i "s|<CLONE_GIST_ID>|${{ steps.set_id.outputs.GIST }}|g" README.md
+
+            git add CLONE.md README.md
             git config --global user.name "GitHub Action"
             git config --global user.email "action@github.com"
-            git commit -m "create clone count badge"
+            git commit -m "create clone count badge and update README"
           fi
 
       - name: Push
