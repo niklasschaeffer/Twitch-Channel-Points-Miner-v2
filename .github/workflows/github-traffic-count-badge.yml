@@ -8,13 +8,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.SECRET_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
-      
-      - name: gh login
-        run: echo "${{ secrets.SECRET_TOKEN }}" | gh auth login --with-token
-
       - name: parse latest traffic count
         run: |
           curl --user "${{ github.actor }}:${{ secrets.SECRET_TOKEN }}" \
