@@ -1,4 +1,24 @@
-# Twitch Channel Points Miner (niklasschaeffer Fork)
+![Twitch Channel Points Miner - v2](https://raw.githubusercontent.com/niklasschaeffer/Twitch-Channel-Points-Miner-v2/master/assets/banner.png)
+
+<p align="center">
+<a href="https://github.com/niklasschaeffer/Twitch-Channel-Points-Miner-v2/releases"><img alt="Latest Version" src="https://img.shields.io/github/v/release/niklasschaeffer/Twitch-Channel-Points-Miner-v2?style=flat&color=white&logo=github&logoColor=white"></a>
+<a href="https://github.com/niklasschaeffer/Twitch-Channel-Points-Miner-v2/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/niklasschaeffer/Twitch-Channel-Points-Miner-v2?style=flat&color=limegreen&logo=github&logoColor=white"></a>
+<a href='https://github.com/MShawon/github-clone-count-badge'><img alt='GitHub Traffic' src='https://img.shields.io/badge/dynamic/json?style=flat&color=blue&label=views&query=count&url=https://gist.githubusercontent.com/niklasschaeffer/<TRAFFIC_GIST_ID>/raw/traffic.json&logo=github&logoColor=white'></a>
+<a href='https://github.com/MShawon/github-clone-count-badge'><img alt='GitHub Clones' src='https://img.shields.io/badge/dynamic/json?style=flat&color=purple&label=clones&query=count&url=https://gist.githubusercontent.com/niklasschaeffer/<CLONE_GIST_ID>/raw/clone.json&logo=github&logoColor=white'></a>
+<a href="https://github.com/niklasschaeffer/Twitch-Channel-Points-Miner-v2/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/github/license/niklasschaeffer/Twitch-Channel-Points-Miner-v2?style=flat&color=black&logo=unlicense&logoColor=white"></a>
+<a href="https://github.com/niklasschaeffer/Twitch-Channel-Points-Miner-v2"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/niklasschaeffer/Twitch-Channel-Points-Miner-v2?style=flat&color=lightyellow&logo=github&logoColor=white"></a>
+</p>
+
+<p align="center">
+<a href="https://hub.docker.com/r/niklasschaeffer/twitch-channel-points-miner-v2"><img alt="Docker Version" src="https://img.shields.io/docker/v/niklasschaeffer/twitch-channel-points-miner-v2?style=flat&color=white&logo=docker&logoColor=white&label=release"></a>
+<a href="https://hub.docker.com/r/niklasschaeffer/twitch-channel-points-miner-v2"><img alt="Docker Stars" src="https://img.shields.io/docker/stars/niklasschaeffer/twitch-channel-points-miner-v2?style=flat&color=limegreen&logo=docker&logoColor=white&label=stars"></a>
+<a href="https://hub.docker.com/r/niklasschaeffer/twitch-channel-points-miner-v2"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/niklasschaeffer/twitch-channel-points-miner-v2?style=flat&color=blue&logo=docker&logoColor=white&label=pulls"></a>
+<a href="https://hub.docker.com/r/niklasschaeffer/twitch-channel-points-miner-v2"><img alt="Docker Images Size AMD64" src="https://img.shields.io/docker/image-size/niklasschaeffer/twitch-channel-points-miner-v2/latest?arch=amd64&label=AMD64 image size&style=flat&color=purple&logo=amd&logoColor=white"></a>
+<a href="https://hub.docker.com/r/niklasschaeffer/twitch-channel-points-miner-v2"><img alt="Docker Images Size ARM64" src="https://img.shields.io/docker/image-size/niklasschaeffer/twitch-channel-points-miner-v2/latest?arch=arm64&label=ARM64 image size&style=flat&color=black&logo=arm&logoColor=white"></a>
+<a href="https://hub.docker.com/r/niklasschaeffer/twitch-channel-points-miner-v2"><img alt="Docker Images Size ARMv7" src="https://img.shields.io/docker/image-size/niklasschaeffer/twitch-channel-points-miner-v2/latest?arch=arm&label=ARMv7 image size&style=flat&color=lightyellow&logo=arm&logoColor=white"></a>
+</p>
+
+<h1 align="center">Twitch Channel Points Miner (niklasschaeffer Fork)</h1>
 
 A **fork** of [Armi1014/Twitch-Channel-Points-Miner-v2](https://github.com/Armi1014/Twitch-Channel-Points-Miner-v2) with an added `!lurk` chat feature.
 
@@ -101,6 +121,8 @@ See [example.py](example.py) for a basic Discord webhook configuration example.
 * [Fork Features](FORK_FEATURES.md)
 * [FAQ](FAQ.md)
 * [Contributing](CONTRIBUTING.md)
+
+> **Note:** After the first successful badge workflow run, replace `<TRAFFIC_GIST_ID>` and `<CLONE_GIST_ID>` in the README badge URLs with the actual Gist IDs stored in the `TRAFFIC_ID` and `GIST_ID` repository secrets.
 
 ## `!lurk` Feature
 
