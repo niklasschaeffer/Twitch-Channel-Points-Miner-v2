@@ -5,6 +5,9 @@ ARG BUILDX_QEMU_ENV
 WORKDIR /usr/src/app
 
 COPY ./requirements.txt ./
+COPY ./setup.py ./
+COPY ./pyproject.toml ./
+COPY ./TwitchChannelPointsMiner ./TwitchChannelPointsMiner
 
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
@@ -21,7 +24,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qq -y --fix-missing --no-ins
     libblas-dev \
     liblapack-dev \
     make \
-    cmake \    
+    cmake \
     automake \
     ninja-build \
     g++ \
